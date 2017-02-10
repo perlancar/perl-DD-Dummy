@@ -4,7 +4,7 @@ package DD;
 # VERSION
 
 use Exporter qw(import);
-our @EXPORT = qw(dd dmp);
+our @EXPORT = qw(dd);
 
 our $BACKEND = $ENV{PERL_DD_BACKEND} || "Data::Dump";
 
