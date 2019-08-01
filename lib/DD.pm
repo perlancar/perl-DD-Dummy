@@ -4,19 +4,29 @@ package DD;
 # VERSION
 
 use Exporter qw(import);
-our @EXPORT = qw(dd);
+our @EXPORT = qw(dd dmp);
 
 our $BACKEND = $ENV{PERL_DD_BACKEND} || "Data::Dump";
 
-sub dd {
+our $is_dd;
+
+sub _dd_or_dmp {
     if ($BACKEND eq 'Data::Dump') {
         require Data::Dump;
-        print Data::Dump::dump(@_), "\n";
-        return @_;
+        if ($is_dd) {
+            print Data::Dump::dump(@_), "\n";
+            return @_;
+        } else {
+            return Data::Dump::dump(@_);
+        }
     } elsif ($BACKEND eq 'Data::Dump::Color') {
         require Data::Dump::Color;
-        print Data::Dump::Color::dump(@_), "\n";
-        return @_;
+        if ($is_dd) {
+            print Data::Dump::Color::dump(@_), "\n";
+            return @_;
+        } else {
+            return Data::Dump::Color::dump(@_);
+        }
     } elsif ($BACKEND eq 'Data::Dumper') {
         require Data::Dumper;
         local $Data::Dumper::Terse = 1;
@@ -25,14 +35,32 @@ sub dd {
         local $Data::Dumper::Deparse = 1;
         local $Data::Dumper::Quotekeys = 0;
         local $Data::Dumper::Sortkeys = 1;
-        print Data::Dumper::Dumper(@_);
-        return @_;
+        if ($is_dd) {
+            print Data::Dumper::Dumper(@_);
+            return @_;
+        } else {
+            return Data::Dumper::Dumper(@_);
+        }
     } elsif ($BACKEND eq 'Data::Dmp') {
         require Data::Dmp;
-        goto \&Data::Dmp::dd;
+        if ($is_dd) {
+            goto \&Data::Dmp::dd;
+        } else {
+            goto \&Data::Dmp::dmp;
+        }
     } else {
         die "DD: Unknown backend '$BACKEND'";
     }
+}
+
+sub dd {
+    local $is_dd = 1;
+    goto &_dd_or_dmp;
+}
+
+sub dmp {
+    local $is_dd = 0;
+    goto &_dd_or_dmp;
 }
 
 1;
@@ -81,6 +109,8 @@ Optional dependency.
 =head1 FUNCTIONS
 
 =head2 dd
+
+=head2 dmp
 
 
 =head1 PACKAGE VARIABLES
