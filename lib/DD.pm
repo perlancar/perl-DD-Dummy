@@ -33,6 +33,12 @@ sub _doit {
         elsif ($_action eq 'dd_warn') { warn   Data::Dump::Color::dump(@_). "\n"; return @_ }
         elsif ($_action eq 'dd_die' ) { die    Data::Dump::Color::dump(@_). "\n"            }
         elsif ($_action eq 'dmp'    ) { return Data::Dump::Color::dump(@_)                  }
+    } elsif ($BACKEND eq 'Data::Dump::PHP') {
+        require Data::Dump::PHP;
+        if    ($_action eq 'dd'     ) { print  Data::Dump::PHP::dump(@_). "\n"; return @_ }
+        elsif ($_action eq 'dd_warn') { warn   Data::Dump::PHP::dump(@_). "\n"; return @_ }
+        elsif ($_action eq 'dd_die' ) { die    Data::Dump::PHP::dump(@_). "\n"            }
+        elsif ($_action eq 'dmp'    ) { return Data::Dump::PHP::dump(@_)                  }
     } elsif ($BACKEND eq 'Data::Dumper') {
         require Data::Dumper;
         local $Data::Dumper::Terse     = 1;
@@ -69,6 +75,12 @@ sub _doit {
         elsif ($_action eq 'dd_warn') { warn   JSON::PP::encode_json(\@_)."\n"; return @_ }
         elsif ($_action eq 'dd_warn') { die    JSON::PP::encode_json(\@_)."\n"            }
         elsif ($_action eq 'dmp'    ) { return JSON::PP::encode_json(\@_)                 }
+    } elsif ($BACKEND eq 'PHP::Serialization') {
+        require PHP::Serialization;
+        if    ($_action eq 'dd'     ) { print  PHP::Serialization::serialize(@_). "\n"; return @_ }
+        elsif ($_action eq 'dd_warn') { warn   PHP::Serialization::serialize(@_). "\n"; return @_ }
+        elsif ($_action eq 'dd_die' ) { die    PHP::Serialization::serialize(@_). "\n"            }
+        elsif ($_action eq 'dmp'    ) { return PHP::Serialization::serialize(@_)                  }
     } elsif ($BACKEND eq 'YAML') {
         require YAML;
         if    ($_action eq 'dd'     ) { print  YAML::Dump(\@_); return @_ }
@@ -137,6 +149,12 @@ Optional dependency. Compact output.
 
 Optional dependency. Colored output.
 
+=item * Data::Dump::PHP
+
+Optional dependency.
+
+See also: L</PHP::Serialization>.
+
 =item * Data::Dumper
 
 A core module.
@@ -168,6 +186,12 @@ Optional dependency, a core module.
 Note that the JSON format cannot handle some kinds of Perl data (e.g. typeglobs,
 recursive structure). You might want to "clean" the data first before dumping
 using L<Data::Clean::ForJSON>.
+
+=item * PHP::Serialization
+
+Optional dependency. Compact output.
+
+See also: L</Data::Dump::PHP>.
 
 =item * YAML
 
