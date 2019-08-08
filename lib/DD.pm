@@ -51,6 +51,12 @@ sub _doit {
         elsif ($_action eq 'dd_warn') { warn   Data::Dumper::Dumper(@_); return @_ }
         elsif ($_action eq 'dd_die' ) { die    Data::Dumper::Dumper(@_)            }
         elsif ($_action eq 'dmp'    ) { return Data::Dumper::Dumper(@_)            }
+    } elsif ($BACKEND eq 'Data::Dumper::Compact') {
+        require Data::Dumper::Compact;
+        if    ($_action eq 'dd'     ) { print  Data::Dumper::Compact->new()->dump(\@_); return @_ }
+        elsif ($_action eq 'dd_warn') { warn   Data::Dumper::Compact->new()->dump(\@_); return @_ }
+        elsif ($_action eq 'dd_die' ) { die    Data::Dumper::Compact->new()->dump(\@_)            }
+        elsif ($_action eq 'dmp'    ) { return Data::Dumper::Compact->new()->dump(\@_)            }
     } elsif ($BACKEND eq 'Data::Format::Pretty::Console') {
         require Data::Format::Pretty::Console;
         if    ($_action eq 'dd'     ) { print  Data::Format::Pretty::Console::format_pretty(\@_); return @_ }
@@ -175,7 +181,11 @@ See also: L<PHP::Serialization>.
 
 =item * L<Data::Dumper>
 
-A core module.
+Optional dependency. A core module.
+
+=item * L<Data::Dumper::Compact>
+
+Optional dependency.
 
 =item * L<Data::Format::Pretty::Console>
 
