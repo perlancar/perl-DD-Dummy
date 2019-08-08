@@ -1,3 +1,12 @@
+0.005   2019-08-08  Released-By: PERLANCAR; Urgency: medium
+
+	- Add dd_warn() and dd_die().
+
+	- Add backends: Data::Dump::PHP, PHP::Serialization,
+          Data::Format::Pretty::{Console,SimpleText,Text}, Data::Printer,
+          JSON::Color, JSON::MaybeXS, JSON::PP, YAML, YAML::Tiny::Color.
+
+
 0.004   2019-08-08  Released-By: PERLANCAR; Urgency: low
 
 	- No functional changes.
