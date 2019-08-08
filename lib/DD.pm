@@ -45,6 +45,12 @@ sub _doit {
         elsif ($_action eq 'dd_warn') { warn   Data::Dmp::dmp(@_)."\n"; return @_ }
         elsif ($_action eq 'dd_die' ) { warn   Data::Dmp::dmp(@_)."\n"; return @_ }
         elsif ($_action eq 'dmp'    ) { goto  &Data::Dmp::dmp                     }
+    } elsif ($BACKEND eq 'Data::Printer') {
+        require Data::Printer;
+        if    ($_action eq 'dd'     ) { my ($out, $p) = Data::Printer::_data_printer(1, \@_, colored=>1); print $out."\n"; return @_ }
+        elsif ($_action eq 'dd_warn') { my ($out, $p) = Data::Printer::_data_printer(1, \@_, colored=>1); warn  $out."\n"; return @_ }
+        elsif ($_action eq 'dd_die' ) { my ($out, $p) = Data::Printer::_data_printer(1, \@_, colored=>1); die   $out."\n"            }
+        elsif ($_action eq 'dmp'    ) { return Data::Printer::np(@_) }
     } else {
         die "DD: Unknown backend '$BACKEND'";
     }
