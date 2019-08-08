@@ -15,7 +15,13 @@ our $BACKEND = $ENV{PERL_DD_BACKEND} || "Data::Dump";
 our $_action;
 
 sub _doit {
-    if ($BACKEND eq 'Data::Dump') {
+    if      ($BACKEND eq 'Data::Dmp') {
+        require Data::Dmp;
+        if    ($_action eq 'dd'     ) { goto  &Data::Dmp::dd                      }
+        elsif ($_action eq 'dd_warn') { warn   Data::Dmp::dmp(@_)."\n"; return @_ }
+        elsif ($_action eq 'dd_die' ) { warn   Data::Dmp::dmp(@_)."\n"; return @_ }
+        elsif ($_action eq 'dmp'    ) { goto  &Data::Dmp::dmp                     }
+    } elsif ($BACKEND eq 'Data::Dump') {
         require Data::Dump;
         if    ($_action eq 'dd'     ) { print  Data::Dump::dump(@_). "\n"; return @_ }
         elsif ($_action eq 'dd_warn') { warn   Data::Dump::dump(@_). "\n"; return @_ }
@@ -39,18 +45,42 @@ sub _doit {
         elsif ($_action eq 'dd_warn') { warn   Data::Dumper::Dumper(@_); return @_ }
         elsif ($_action eq 'dd_die' ) { die    Data::Dumper::Dumper(@_)            }
         elsif ($_action eq 'dmp'    ) { return Data::Dumper::Dumper(@_)            }
-    } elsif ($BACKEND eq 'Data::Dmp') {
-        require Data::Dmp;
-        if    ($_action eq 'dd'     ) { goto  &Data::Dmp::dd                      }
-        elsif ($_action eq 'dd_warn') { warn   Data::Dmp::dmp(@_)."\n"; return @_ }
-        elsif ($_action eq 'dd_die' ) { warn   Data::Dmp::dmp(@_)."\n"; return @_ }
-        elsif ($_action eq 'dmp'    ) { goto  &Data::Dmp::dmp                     }
     } elsif ($BACKEND eq 'Data::Printer') {
         require Data::Printer;
         if    ($_action eq 'dd'     ) { my ($out, $p) = Data::Printer::_data_printer(1, \@_, colored=>1); print $out."\n"; return @_ }
         elsif ($_action eq 'dd_warn') { my ($out, $p) = Data::Printer::_data_printer(1, \@_, colored=>1); warn  $out."\n"; return @_ }
         elsif ($_action eq 'dd_die' ) { my ($out, $p) = Data::Printer::_data_printer(1, \@_, colored=>1); die   $out."\n"            }
         elsif ($_action eq 'dmp'    ) { return Data::Printer::np(@_) }
+    } elsif ($BACKEND eq 'JSON::Color') {
+        require JSON::Color;
+        if    ($_action eq 'dd'     ) { print  JSON::Color::encode_json(\@_)."\n"; return @_ }
+        elsif ($_action eq 'dd_warn') { warn   JSON::Color::encode_json(\@_)."\n"; return @_ }
+        elsif ($_action eq 'dd_warn') { die    JSON::Color::encode_json(\@_)."\n"            }
+        elsif ($_action eq 'dmp'    ) { return JSON::Color::encode_json(\@_)                 }
+    } elsif ($BACKEND eq 'JSON::MaybeXS') {
+        require JSON::MaybeXS;
+        if    ($_action eq 'dd'     ) { print  JSON::MaybeXS::encode_json(\@_)."\n"; return @_ }
+        elsif ($_action eq 'dd_warn') { warn   JSON::MaybeXS::encode_json(\@_)."\n"; return @_ }
+        elsif ($_action eq 'dd_warn') { die    JSON::MaybeXS::encode_json(\@_)."\n"            }
+        elsif ($_action eq 'dmp'    ) { return JSON::MaybeXS::encode_json(\@_)                 }
+    } elsif ($BACKEND eq 'JSON::PP') {
+        require JSON::PP;
+        if    ($_action eq 'dd'     ) { print  JSON::PP::encode_json(\@_)."\n"; return @_ }
+        elsif ($_action eq 'dd_warn') { warn   JSON::PP::encode_json(\@_)."\n"; return @_ }
+        elsif ($_action eq 'dd_warn') { die    JSON::PP::encode_json(\@_)."\n"            }
+        elsif ($_action eq 'dmp'    ) { return JSON::PP::encode_json(\@_)                 }
+    } elsif ($BACKEND eq 'YAML') {
+        require YAML;
+        if    ($_action eq 'dd'     ) { print  YAML::Dump(\@_); return @_ }
+        elsif ($_action eq 'dd_warn') { warn   YAML::Dump(\@_); return @_ }
+        elsif ($_action eq 'dd_warn') { die    YAML::Dump(\@_)            }
+        elsif ($_action eq 'dmp'    ) { return YAML::Dump(\@_)            }
+    } elsif ($BACKEND eq 'YAML::Tiny::Color') {
+        require YAML::Tiny::Color;
+        if    ($_action eq 'dd'     ) { print  YAML::Tiny::Color::Dump(\@_); return @_ }
+        elsif ($_action eq 'dd_warn') { warn   YAML::Tiny::Color::Dump(\@_); return @_ }
+        elsif ($_action eq 'dd_warn') { die    YAML::Tiny::Color::Dump(\@_)            }
+        elsif ($_action eq 'dmp'    ) { return YAML::Tiny::Color::Dump(\@_)            }
     } else {
         die "DD: Unknown backend '$BACKEND'";
     }
@@ -101,13 +131,55 @@ debugging. You can also use these other backends:
 
 =item * Data::Dmp
 
-Optional dependency.
+Optional dependency. Compact output.
 
 =item * Data::Dump::Color
 
-Optional dependency.
+Optional dependency. Colored output.
 
 =item * Data::Dumper
+
+A core module.
+
+=item * Data::Printer
+
+Optional dependency. Colored output.
+
+=item * JSON::Color
+
+Optional dependency. Colored output.
+
+Note that the JSON format cannot handle some kinds of Perl data (e.g. typeglobs,
+recursive structure). You might want to "clean" the data first before dumping
+using L<Data::Clean::ForJSON>.
+
+=item * JSON::MaybeXS
+
+Optional dependency.
+
+Note that the JSON format cannot handle some kinds of Perl data (e.g. typeglobs,
+recursive structure). You might want to "clean" the data first before dumping
+using L<Data::Clean::ForJSON>.
+
+=item * JSON::PP
+
+Optional dependency, a core module.
+
+Note that the JSON format cannot handle some kinds of Perl data (e.g. typeglobs,
+recursive structure). You might want to "clean" the data first before dumping
+using L<Data::Clean::ForJSON>.
+
+=item * YAML
+
+Optional dependency.
+
+=item * YAML::Tiny::Color
+
+Optional dependency. Colored output.
+
+Note that this dumper cannot handle some kinds of Perl data (e.g. recursive
+references). You might want to "clean" the data first before dumping using
+L<Data::Clean> or L<Data::Clean::ForJSON>.
 
 =back
 
