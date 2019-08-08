@@ -72,6 +72,10 @@ sub dmp {
 
 =head1 SYNOPSIS
 
+To install this module, currently do:
+
+ % cpanm -n DD::Dummy
+
 In your code:
 
  use DD; # exports dd() and dmp()
