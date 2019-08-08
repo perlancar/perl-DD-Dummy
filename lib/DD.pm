@@ -51,6 +51,24 @@ sub _doit {
         elsif ($_action eq 'dd_warn') { warn   Data::Dumper::Dumper(@_); return @_ }
         elsif ($_action eq 'dd_die' ) { die    Data::Dumper::Dumper(@_)            }
         elsif ($_action eq 'dmp'    ) { return Data::Dumper::Dumper(@_)            }
+    } elsif ($BACKEND eq 'Data::Format::Pretty::Console') {
+        require Data::Format::Pretty::Console;
+        if    ($_action eq 'dd'     ) { print  Data::Format::Pretty::Console::format_pretty(\@_); return @_ }
+        elsif ($_action eq 'dd_warn') { warn   Data::Format::Pretty::Console::format_pretty(\@_); return @_ }
+        elsif ($_action eq 'dd_die' ) { die    Data::Format::Pretty::Console::format_pretty(\@_)            }
+        elsif ($_action eq 'dmp'    ) { return Data::Format::Pretty::Console::format_pretty(\@_)            }
+    } elsif ($BACKEND eq 'Data::Format::Pretty::SimpleText') {
+        require Data::Format::Pretty::SimpleText;
+        if    ($_action eq 'dd'     ) { print  Data::Format::Pretty::SimpleText::format_pretty(\@_); return @_ }
+        elsif ($_action eq 'dd_warn') { warn   Data::Format::Pretty::SimpleText::format_pretty(\@_); return @_ }
+        elsif ($_action eq 'dd_die' ) { die    Data::Format::Pretty::SimpleText::format_pretty(\@_)            }
+        elsif ($_action eq 'dmp'    ) { return Data::Format::Pretty::SimpleText::format_pretty(\@_)            }
+    } elsif ($BACKEND eq 'Data::Format::Pretty::Text') {
+        require Data::Format::Pretty::Text;
+        if    ($_action eq 'dd'     ) { print  Data::Format::Pretty::Text::format_pretty(\@_); return @_ }
+        elsif ($_action eq 'dd_warn') { warn   Data::Format::Pretty::Text::format_pretty(\@_); return @_ }
+        elsif ($_action eq 'dd_die' ) { die    Data::Format::Pretty::Text::format_pretty(\@_)            }
+        elsif ($_action eq 'dmp'    ) { return Data::Format::Pretty::Text::format_pretty(\@_)            }
     } elsif ($BACKEND eq 'Data::Printer') {
         require Data::Printer;
         if    ($_action eq 'dd'     ) { my ($out, $p) = Data::Printer::_data_printer(1, \@_, colored=>1); print $out."\n"; return @_ }
@@ -141,29 +159,41 @@ debugging. You can also use these other backends:
 
 =over
 
-=item * Data::Dmp
+=item * L<Data::Dmp>
 
 Optional dependency. Compact output.
 
-=item * Data::Dump::Color
+=item * L<Data::Dump::Color>
 
 Optional dependency. Colored output.
 
-=item * Data::Dump::PHP
+=item * L<Data::Dump::PHP>
 
 Optional dependency.
 
-See also: L</PHP::Serialization>.
+See also: L<PHP::Serialization>.
 
-=item * Data::Dumper
+=item * L<Data::Dumper>
 
 A core module.
 
-=item * Data::Printer
+=item * L<Data::Format::Pretty::Console>
 
 Optional dependency. Colored output.
 
-=item * JSON::Color
+=item * L<Data::Format::Pretty::SimpleText>
+
+Optional dependency.
+
+=item * L<Data::Format::Pretty::Text>
+
+Optional dependency. Colored output.
+
+=item * L<Data::Printer>
+
+Optional dependency. Colored output.
+
+=item * L<JSON::Color>
 
 Optional dependency. Colored output.
 
@@ -171,7 +201,7 @@ Note that the JSON format cannot handle some kinds of Perl data (e.g. typeglobs,
 recursive structure). You might want to "clean" the data first before dumping
 using L<Data::Clean::ForJSON>.
 
-=item * JSON::MaybeXS
+=item * L<JSON::MaybeXS>
 
 Optional dependency.
 
@@ -179,7 +209,7 @@ Note that the JSON format cannot handle some kinds of Perl data (e.g. typeglobs,
 recursive structure). You might want to "clean" the data first before dumping
 using L<Data::Clean::ForJSON>.
 
-=item * JSON::PP
+=item * L<JSON::PP>
 
 Optional dependency, a core module.
 
@@ -187,17 +217,17 @@ Note that the JSON format cannot handle some kinds of Perl data (e.g. typeglobs,
 recursive structure). You might want to "clean" the data first before dumping
 using L<Data::Clean::ForJSON>.
 
-=item * PHP::Serialization
+=item * L<PHP::Serialization>
 
 Optional dependency. Compact output.
 
 See also: L</Data::Dump::PHP>.
 
-=item * YAML
+=item * L<YAML>
 
 Optional dependency.
 
-=item * YAML::Tiny::Color
+=item * L<YAML::Tiny::Color>
 
 Optional dependency. Colored output.
 
