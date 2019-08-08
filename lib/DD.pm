@@ -2,7 +2,9 @@
 
 package DD;
 
+# AUTHORITY
 # DATE
+# DIST
 # VERSION
 
 use Exporter qw(import);
