@@ -1,3 +1,10 @@
+0.004   2019-08-08  Released-By: PERLANCAR; Urgency: low
+
+	- No functional changes.
+
+	- [doc] Give instruction on how to install the module.
+
+
 0.003   2019-08-08  Released-By: PERLANCAR; Urgency: medium
 
 	- Add DD::Dummy so we can install DD using 'cpanm DD::Dummy'.
