@@ -1,3 +1,10 @@
+0.006   2019-08-08  Released-By: PERLANCAR; Urgency: medium
+
+	- Make Data::Dumper an optional dependency.
+
+        - Add backend: Data::Dumper::Compact.
+
+
 0.005   2019-08-08  Released-By: PERLANCAR; Urgency: medium
 
 	- Add dd_warn() and dd_die().
