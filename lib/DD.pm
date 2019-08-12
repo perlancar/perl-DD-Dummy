@@ -132,7 +132,7 @@ sub dmp     { $_action = 'dmp';     goto &_doit }
 
 =head1 SYNOPSIS
 
-To install this module, currently do:
+To install this module, currently do this:
 
  % cpanm -n DD::Dummy
 
