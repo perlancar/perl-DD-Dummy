@@ -1,6 +1,5 @@
 ## no critic: Modules::ProhibitAutomaticExportation
 
-package DD::Dummy;
 package # hide from PAUSE
     DD;
 
@@ -141,6 +140,7 @@ sub dd_warn { $_action = 'dd_warn'; goto &_doit }
 sub dd_die  { $_action = 'dd_die';  goto &_doit }
 sub dmp     { $_action = 'dmp';     goto &_doit }
 
+package DD::Dummy;
 1;
 # ABSTRACT: Dump data structure for debugging
 
