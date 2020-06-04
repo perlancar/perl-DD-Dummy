@@ -1,5 +1,6 @@
 ## no critic: Modules::ProhibitAutomaticExportation
 
+package DD::Dummy;
 package # hide from PAUSE
     DD;
 
