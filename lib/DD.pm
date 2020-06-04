@@ -34,12 +34,18 @@ sub _doit {
         elsif ($_action eq 'dd_warn') { warn   Data::Dump::Color::dump(@_). "\n"; return @_ }
         elsif ($_action eq 'dd_die' ) { die    Data::Dump::Color::dump(@_). "\n"            }
         elsif ($_action eq 'dmp'    ) { return Data::Dump::Color::dump(@_)                  }
-    } elsif ($BACKEND eq 'Data::Dump::HideObject') {
-        require Data::Dump::HideObject;
-        if    ($_action eq 'dd'     ) { print  Data::Dump::HideObject::dump(@_). "\n"; return @_ }
-        elsif ($_action eq 'dd_warn') { warn   Data::Dump::HideObject::dump(@_). "\n"; return @_ }
-        elsif ($_action eq 'dd_die' ) { die    Data::Dump::HideObject::dump(@_). "\n"            }
-        elsif ($_action eq 'dmp'    ) { return Data::Dump::HideObject::dump(@_)                  }
+    } elsif ($BACKEND eq 'Data::Dump::ObjectAsString') {
+        require Data::Dump::ObjectAsString;
+        if    ($_action eq 'dd'     ) { print  Data::Dump::ObjectAsString::dump(@_). "\n"; return @_ }
+        elsif ($_action eq 'dd_warn') { warn   Data::Dump::ObjectAsString::dump(@_). "\n"; return @_ }
+        elsif ($_action eq 'dd_die' ) { die    Data::Dump::ObjectAsString::dump(@_). "\n"            }
+        elsif ($_action eq 'dmp'    ) { return Data::Dump::ObjectAsString::dump(@_)                  }
+    } elsif ($BACKEND eq 'Data::Dump::Options') {
+        require Data::Dump::Options;
+        if    ($_action eq 'dd'     ) { print  Data::Dump::Options::dump(@_). "\n"; return @_ }
+        elsif ($_action eq 'dd_warn') { warn   Data::Dump::Options::dump(@_). "\n"; return @_ }
+        elsif ($_action eq 'dd_die' ) { die    Data::Dump::Options::dump(@_). "\n"            }
+        elsif ($_action eq 'dmp'    ) { return Data::Dump::Options::dump(@_)                  }
     } elsif ($BACKEND eq 'Data::Dump::PHP') {
         require Data::Dump::PHP;
         if    ($_action eq 'dd'     ) { print  Data::Dump::PHP::dump(@_). "\n"; return @_ }
@@ -180,7 +186,11 @@ Optional dependency. Compact output.
 
 Optional dependency. Colored output.
 
-=item * L<Data::Dump::HideObject>
+=item * L<Data::Dump::ObjectAsString>
+
+Optional dependency.
+
+=item * L<Data::Dump::Options>
 
 Optional dependency.
 
