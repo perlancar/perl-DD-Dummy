@@ -1,3 +1,9 @@
+0.009   2020-06-04  Released-By: PERLANCAR; Urgency: medium
+
+        - [dist] Try not giving DD 'package DD::Dummy' to see its effect on
+          MetaCPAN.
+
+
 0.008   2020-06-04  Released-By: PERLANCAR; Urgency: medium
 
 	- Hide DD package from PAUSE indexer.
