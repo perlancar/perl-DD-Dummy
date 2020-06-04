@@ -1,7 +1,10 @@
 0.009   2020-06-04  Released-By: PERLANCAR; Urgency: medium
 
         - [dist] Try not giving DD 'package DD::Dummy' to see its effect on
-          MetaCPAN.
+          MetaCPAN. UPDATE: this is actually the same as in 0.007 (in lib/DD.pm,
+          "package + \n + DD" to hide from PAUSE, and no "package DD::Dummy").
+          MetaCPAN shows UNAUTHORIZED but the distro is indexed OK by PAUSE;
+          only DD::Dummy is indexed.
 
 
 0.008   2020-06-04  Released-By: PERLANCAR; Urgency: medium
