@@ -2,3 +2,4 @@ DD-Dummy-*
 .build
 *~
 nytprof*
+.DS_Store
